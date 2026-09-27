@@ -1,0 +1,29 @@
+
+flowchart BT
+    %% Fact
+    F["FACT<br>Malicious_Observation<br><br>Measures:<br>obs_count<br>is_online"]
+    
+    %% Dimensions & Hierarchies
+    F --- D["Day"]
+    D --- M["Month"]
+    M --- Y["Year"]
+    
+    F --- S["Source"]
+    
+    F --- ST["Status"]
+    
+    F --- I["Indicator"]
+    I --- IT["IndicatorType"]
+    I -.-> TLD["TLD (optional)"]
+    I -.-> A["ASN (optional)"]
+    A --- H["Holder"]
+    
+    %% Multiple Arc for Many-to-Many
+    F === TG["Tag (Multiple Arc)"]
+    
+    classDef fact fill:#f5f5f5,stroke:#333,stroke-width:2px
+    classDef dim fill:#ffffff,stroke:#333,stroke-width:1px
+    classDef multiple fill:#ffffff,stroke:#333,stroke-width:3px
+    class F fact
+    class D,M,Y,S,ST,I,IT,TLD,A,H dim
+    class TG multiple

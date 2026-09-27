@@ -1,0 +1,51 @@
+erDiagram
+    OBSERVATION {
+        int observation_id PK
+        int indicator_id FK
+        int source_id FK
+        int raw_id FK
+        date day_bucket
+        string status
+    }
+    SOURCE {
+        int source_id PK
+        string name
+    }
+    RAW_INGEST {
+        int raw_id PK
+        int source_id FK
+        datetime ingest_timestamp
+        string payload_json
+    }
+    INDICATOR {
+        int indicator_id PK
+        string indicator_type
+        string value_canon
+        string tld
+    }
+    OBSERVATION_TAG {
+        int observation_id FK
+        int tag_id FK
+    }
+    TAG {
+        int tag_id PK
+        string tag_name
+    }
+    INDICATOR_ASN {
+        int indicator_id FK
+        int asn_id FK
+    }
+    ASN {
+        int asn_id PK
+        int asn_number
+        string holder
+    }
+
+    SOURCE ||--o{ RAW_INGEST : produces
+    SOURCE ||--o{ OBSERVATION : reports
+    RAW_INGEST ||--o{ OBSERVATION : generates
+    INDICATOR ||--o{ OBSERVATION : observed_as
+    OBSERVATION ||--o{ OBSERVATION_TAG : has
+    TAG ||--o{ OBSERVATION_TAG : labels
+    INDICATOR ||--o{ INDICATOR_ASN : mapped_to
+    ASN ||--o{ INDICATOR_ASN : describes
